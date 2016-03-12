@@ -10,8 +10,9 @@ namespace homework;
 
 class promotions
 {
-    private $carList = [];
-    private $total   = 0;
+    private $carList   = [];
+    private $total     = 0;
+    private $bookGroup = [];
 
     private $promotionsList = [
         'EpisodeOne'   => 100,
@@ -34,25 +35,27 @@ class promotions
         $this->carList[] = $bookName;
     }
 
-    private function calculator()
+    private function bookByGroup()
     {
-        $bookGroup = [];
         foreach ($this->carList as $bookName) {
-            if (isset($bookGroup[$bookName]) == false) {
-                $bookGroup[$bookName] = 0;
+            if (isset($this->bookGroup[$bookName]) == false) {
+                $this->bookGroup[$bookName] = 0;
             }
-            $bookGroup[$bookName]++;
+            $this->bookGroup[$bookName]++;
         }
+    }
 
+    private function calculatorByGroup()
+    {
         $discountGroup = [];
 
-        for ($i = 0; $i < max($bookGroup); $i++) {
+        for ($i = 0; $i < max($this->bookGroup); $i++) {
             $discountGroup[$i] = [
                 'count' => 0,
                 'total' => 0
             ];
 
-            foreach ($bookGroup as $name => $count) {
+            foreach ($this->bookGroup as $name => $count) {
                 if ($count > $i) {
                     $discountGroup[$i]['count']++;
                     $discountGroup[$i]['total'] += $this->promotionsList[$name];
@@ -61,6 +64,12 @@ class promotions
 
             $this->total += $discountGroup[$i]['total'] * $this->discount[$discountGroup[$i]['count']];
         }
+    }
+
+    private function calculator()
+    {
+        $this->bookByGroup();
+        $this->calculatorByGroup();
     }
 
     public function getTotal()
