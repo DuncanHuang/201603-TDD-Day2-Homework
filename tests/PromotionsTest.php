@@ -91,4 +91,20 @@ class PromotionsTest extends \PHPUnit_Framework_TestCase
         // Assert
         $this->assertEquals($expected, $actual);
     }
+
+    public function test_EpisodeOneTwoBuyOne_EpisodeThreeBuyTwo()
+    {
+        // Arrange
+        $expected = 370;
+
+        // Act
+        $this->calcuator->addBook('EpisodeOne');
+        $this->calcuator->addBook('EpisodeTwo');
+        $this->calcuator->addBook('EpisodeThree');
+        $this->calcuator->addBook('EpisodeThree');
+        $actual = $this->calcuator->getTotal();
+
+        // Assert
+        $this->assertEquals($expected, $actual);
+    }
 }
